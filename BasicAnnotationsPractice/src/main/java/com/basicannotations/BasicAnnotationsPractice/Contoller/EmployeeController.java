@@ -1,9 +1,8 @@
 package com.basicannotations.BasicAnnotationsPractice.Contoller;
 
 import com.basicannotations.BasicAnnotationsPractice.Entity.Employee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,65 @@ public class EmployeeController {
         Employee obj =new Employee(id,"emp1",40000.00);
         return obj;
     }
+
+    //multi path variables
+
+    //http://localhost:8080/employees/2/siva
+    @GetMapping("/employees/{id}/{employee-name}")
+    public Employee getEmployeeByIdAndName(@PathVariable int id,@PathVariable("employee-name") String name){
+        Employee obj =new Employee(id,name,40000.00);
+        return obj;
+    }
+
+
+    //Rest Api with requestParams
+    //used to bind the query parameters from URL to variables of method.
+    //http://localhost:8080/employees/query?id=100
+    @GetMapping("/employees/query")
+    public Employee getEmployeeByRequestParam(@RequestParam int id){
+        Employee obj =new Employee(id,"emp1",40000.00);
+        return obj;
+    }
+
+    //multi QueryParameters
+    //http://localhost:8080/employees/queryParams?id=100&name="Kinguu"
+    @GetMapping("/employees/queryParams")
+    public Employee getEmployeeByRequestParams(@RequestParam int id,@RequestParam String name){
+        Employee obj =new Employee(id,name,40000.00);
+        return obj;
+    }
+
+    // requestBody annotation.
+    //it retrieves  the http request body  and automatically covert it into java object.
+
+    @PostMapping("/employees/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee createEmployee(@RequestBody Employee employee){
+        System.out.println(employee.getId());
+        System.out.println(employee.getName());
+        System.out.println(employee.getSalary());
+        return employee;
+    }
+
+
+
+    @PutMapping("/employees/{id}/update")
+    public Employee updateEmployee(@PathVariable int id,@RequestBody Employee employee){
+        System.out.println(employee.getName());
+        System.out.println(employee.getSalary());
+        System.out.println("data updated with id "+id);
+        return employee;
+    }
+
+    @DeleteMapping("/employees/{id}/delete")
+    public String deleteEmployee(@PathVariable int id){
+
+        return "Deleted Employee successfully with id "+ id;
+    }
+
+
+
+
 
 
 }
