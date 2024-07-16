@@ -2,19 +2,43 @@ package com.basicannotations.BasicAnnotationsPractice.Contoller;
 
 import com.basicannotations.BasicAnnotationsPractice.Entity.Employee;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+//@RequestMapping("Employee")//base url
 public class EmployeeController {
 
+//    @GetMapping("/employee")
+//    public Employee getEmployee(){
+//        Employee obj =new Employee(1,"emp1",40000.00);
+//        return obj;
+//    }
+
+
+//    @GetMapping("/employee")
+//    public ResponseEntity<Employee> getEmployee(){
+//        Employee obj =new Employee(1,"emp100",40000.00);
+//        return new ResponseEntity<>(obj,HttpStatus.OK);
+//    }
+
+//    @GetMapping("/employee")
+//    public ResponseEntity<Employee> getEmployee(){
+//        Employee obj =new Employee(1,"emp100",40000.00);
+//        return ResponseEntity.ok(obj);
+//    }
+
+
     @GetMapping("/employee")
-    public Employee getEmployee(){
-        Employee obj =new Employee(1,"emp1",40000.00);
-        return obj;
+    public ResponseEntity<Employee> getEmployee(){
+        Employee obj =new Employee(1,"emp10000",40000.00);
+        return ResponseEntity.ok().header("EmployeeData","kingu").body(obj);
     }
+
+
 
     @GetMapping("/employees")
     public List<Employee> getListOfEmployee(){
@@ -78,22 +102,17 @@ public class EmployeeController {
 
 
     @PutMapping("/employees/{id}/update")
-    public Employee updateEmployee(@PathVariable int id,@RequestBody Employee employee){
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int id,@RequestBody Employee employee){
         System.out.println(employee.getName());
         System.out.println(employee.getSalary());
-        System.out.println("data updated with id "+id);
-        return employee;
+        System.out.println("Employee Object updated with id "+id);
+        return new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
     @DeleteMapping("/employees/{id}/delete")
-    public String deleteEmployee(@PathVariable int id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable int id){
 
-        return "Deleted Employee successfully with id "+ id;
+        return ResponseEntity.ok("Deleted Employee successfully with id "+ id);
     }
-
-
-
-
-
 
 }
