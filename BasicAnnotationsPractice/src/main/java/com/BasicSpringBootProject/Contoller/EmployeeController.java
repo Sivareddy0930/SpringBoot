@@ -1,6 +1,6 @@
-package com.basicannotations.BasicAnnotationsPractice.Contoller;
+package com.BasicSpringBootProject.Contoller;
 
-import com.basicannotations.BasicAnnotationsPractice.Entity.Employee;
+import com.BasicSpringBootProject.Entity.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

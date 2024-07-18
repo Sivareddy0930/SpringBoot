@@ -1,4 +1,4 @@
-package com.basicannotations.BasicAnnotationsPractice.Contoller;
+package com.BasicSpringBootProject.Contoller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;

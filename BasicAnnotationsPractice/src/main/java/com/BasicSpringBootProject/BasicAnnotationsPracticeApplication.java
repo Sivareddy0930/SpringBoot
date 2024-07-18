@@ -1,4 +1,4 @@
-package com.basicannotations.BasicAnnotationsPractice;
+package com.BasicSpringBootProject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
