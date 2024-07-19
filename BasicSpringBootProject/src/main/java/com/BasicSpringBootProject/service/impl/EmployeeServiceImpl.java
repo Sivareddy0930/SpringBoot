@@ -1,6 +1,8 @@
 package com.BasicSpringBootProject.service.impl;
 
+import com.BasicSpringBootProject.Dto.EmployeeDto;
 import com.BasicSpringBootProject.Entity.Employee;
+import com.BasicSpringBootProject.Mapper.EmployeeMapper;
 import com.BasicSpringBootProject.Repository.EmployeeRepository;
 import com.BasicSpringBootProject.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -15,8 +17,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public Employee createEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+        //covert EmployeeDto to Employee Dto  using EmployeeMapper methods.
+        Employee employee = EmployeeMapper.EmployeeDtoToEmployee(employeeDto);
+       Employee savedEmployee = employeeRepository.save(employee);
+        return EmployeeMapper.EmployeeToEmployeeDto(savedEmployee);
     }
 
     @Override

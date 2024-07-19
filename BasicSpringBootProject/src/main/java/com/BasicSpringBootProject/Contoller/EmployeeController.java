@@ -1,6 +1,7 @@
 package com.BasicSpringBootProject.Contoller;
 
 
+import com.BasicSpringBootProject.Dto.EmployeeDto;
 import com.BasicSpringBootProject.Entity.Employee;
 import com.BasicSpringBootProject.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,9 @@ public class EmployeeController {
     //createEmployee Api
 
     @PostMapping("/createEmployee")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
-        Employee emp = employeeService.createEmployee(employee);
-        return new ResponseEntity(emp, HttpStatus.CREATED);
+    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto){
+        EmployeeDto empDto = employeeService.createEmployee(employeeDto);
+        return new ResponseEntity(empDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/getEmployee/{id}")

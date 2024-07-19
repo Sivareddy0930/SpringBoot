@@ -1,11 +1,12 @@
 package com.BasicSpringBootProject.service;
 
+import com.BasicSpringBootProject.Dto.EmployeeDto;
 import com.BasicSpringBootProject.Entity.Employee;
 
 import java.util.List;
 
 public interface EmployeeService {
-    Employee createEmployee(Employee employee);
+    EmployeeDto createEmployee(EmployeeDto employee);
     Employee getEmployeeById(Integer empId);
 
     List<Employee> getAllEmployee();
