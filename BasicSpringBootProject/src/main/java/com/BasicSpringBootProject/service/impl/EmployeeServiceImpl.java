@@ -8,8 +8,10 @@ import com.BasicSpringBootProject.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,25 +27,39 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeById(Integer empId) {
+    public EmployeeDto getEmployeeById(Integer empId) {
         Optional<Employee> optionalEmployee= employeeRepository.findById(empId);
-        return optionalEmployee.get();
+        Employee employee = optionalEmployee.get();
+        return EmployeeMapper.EmployeeToEmployeeDto(employee) ;
     }
 
     @Override
-    public List<Employee> getAllEmployee() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getAllEmployee() {
+        List<Employee> employeeList = employeeRepository.findAll();
+//        List<EmployeeDto> employeeDtoList =new ArrayList<>();
+//        for (Employee emp: employeeList) {
+//            EmployeeDto empDto = EmployeeMapper.EmployeeToEmployeeDto(emp);
+//            employeeDtoList.add(empDto);
+//        }
+
+        // using Java 8 streams.
+
+        List<EmployeeDto> employeeDtoList = employeeList.stream().map(EmployeeMapper::EmployeeToEmployeeDto)
+                                            .collect(Collectors.toList());
+
+
+        return employeeDtoList;
     }
 
     @Override
-    public Employee updateEmployeeById(Integer empId, Employee employee) {
+    public EmployeeDto updateEmployeeById(Integer empId, EmployeeDto employeeDto) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(empId);
-        Employee emp =optionalEmployee.get();
-        emp.setName(employee.getName());
-        emp.setEmail(employee.getEmail());
-        emp.setSalary(employee.getSalary());
-        employeeRepository.save(emp);
-        return emp;
+        Employee employee =optionalEmployee.get();
+        employee.setName(employeeDto.getName());
+        employee.setEmail(employeeDto.getEmail());
+        employee.setSalary(employeeDto.getSalary());
+        Employee UpdatedEmployee = employeeRepository.save(employee);
+        return EmployeeMapper.EmployeeToEmployeeDto(UpdatedEmployee);
     }
 
     @Override
