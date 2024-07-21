@@ -3,6 +3,7 @@ package com.BasicSpringBootProject2.Contoller;
 
 import com.BasicSpringBootProject2.Dto.EmployeeDto;
 import com.BasicSpringBootProject2.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class EmployeeController {
     //createEmployee Api
 
     @PostMapping("/createEmployee")
-    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto){
         EmployeeDto empDto = employeeService.createEmployee(employeeDto);
         return new ResponseEntity(empDto, HttpStatus.CREATED);
     }
@@ -41,7 +42,7 @@ public class EmployeeController {
 
 
     @PutMapping("/updateEmployee/{id}")
-    public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable Integer id, @RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable Integer id, @RequestBody @Valid EmployeeDto employeeDto){
         EmployeeDto empDto = employeeService.updateEmployeeById(id,employeeDto);
         return new ResponseEntity(empDto, HttpStatus.OK);
     }
