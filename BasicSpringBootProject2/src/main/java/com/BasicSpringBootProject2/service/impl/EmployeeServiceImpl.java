@@ -3,6 +3,8 @@ package com.BasicSpringBootProject2.service.impl;
 import com.BasicSpringBootProject2.Dto.EmployeeDto;
 import com.BasicSpringBootProject2.Entity.Employee;
 //import com.BasicSpringBootProject2.Mapper.EmployeeMapper;
+import com.BasicSpringBootProject2.Exception.EmailAlreadyExistException;
+import com.BasicSpringBootProject2.Exception.ResourceNotFoundException;
 import com.BasicSpringBootProject2.Repository.EmployeeRepository;
 import com.BasicSpringBootProject2.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 //        Employee employee = EmployeeMapper.EmployeeDtoToEmployee(employeeDto);
 
+
+
+        Optional<Employee> optionalEmployee =employeeRepository.findByEmail(employeeDto.getEmail());
+        if (optionalEmployee.isPresent()){
+            throw new EmailAlreadyExistException(employeeDto.getEmail());
+        }
+
         //shortest way of mapping from dto to entity type using ModelMapper and its methods.
         Employee employee = modelMapper.map(employeeDto,Employee.class);
 
@@ -39,8 +48,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getEmployeeById(Integer empId) {
-        Optional<Employee> optionalEmployee= employeeRepository.findById(empId);
-        Employee employee = optionalEmployee.get();
+        Employee employee= employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("employee","id",empId));
+
 
 //        return EmployeeMapper.EmployeeToEmployeeDto(employee) ;
         return modelMapper.map(employee,EmployeeDto.class) ;
@@ -71,8 +80,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto updateEmployeeById(Integer empId, EmployeeDto employeeDto) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(empId);
-        Employee employee =optionalEmployee.get();
+        Employee employee = employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("employee","id",empId));
+
         employee.setName(employeeDto.getName());
         employee.setEmail(employeeDto.getEmail());
         employee.setSalary(employeeDto.getSalary());
@@ -85,6 +94,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String deleteEmployee(Integer empId) {
+        Employee employee = employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("employee","id",empId));
+
         employeeRepository.deleteById(empId);
         return "Employee deleted successfully with Id :- "+empId;
     }
