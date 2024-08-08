@@ -3,6 +3,7 @@ package com.BasicSpringBootProject2.Contoller;
 
 import com.BasicSpringBootProject2.Dto.EmployeeDto;
 import com.BasicSpringBootProject2.service.EmployeeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,10 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/Employees")//base url
+@Tag(
+        name = "Employee management",
+        description = "CRUD REST APIs for Employee management"
+)
 public class EmployeeController {
 
     private EmployeeService employeeService;
